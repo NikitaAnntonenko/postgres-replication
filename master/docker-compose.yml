@@ -1,0 +1,17 @@
+version: "3"
+services:
+ pg_master:
+  build: .
+  ports:
+    - 5432:5432
+  volumes:
+   - $PWD/pg_data_master:/var/lib/postgresql/data
+  environment:
+   - POSTGRES_USER=postgres
+   - POSTGRES_PASSWORD=docker
+   - POSTGRES_DB=test
+   - PG_REP_USER=rep
+   - PG_REP_PASSWORD=123456
+   - REPLICA_IP=0.0.0.0
+   - RESTORE_MASTER=false
+  

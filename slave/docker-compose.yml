@@ -1,0 +1,19 @@
+version: "3"
+services:
+ pg_slave:
+  build: .
+  environment:
+   - POSTGRES_USER=postgres
+   - POSTGRES_PASSWORD=docker
+   - POSTGRES_DB=test
+   - PG_REP_USER=rep
+   - PG_REP_PASSWORD=123456
+   - PG_MASTER_IP=0.0.0.0
+   - PG_MASTER_PORT=5432
+   - FIRST_START=false
+   - RESTART_AS_SLAVE=false
+  volumes:
+   - $PWD/pg_data_slave:/var/lib/postgresql/data
+  ports:
+    - 5433:5432
+

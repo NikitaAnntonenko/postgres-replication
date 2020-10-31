@@ -1,0 +1,2 @@
+docker-entrypoint-on-every-start.d # start every time (not works)
+docker-entrypoint-initdb.d # only when docker inits

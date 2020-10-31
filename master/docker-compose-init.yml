@@ -1,0 +1,10 @@
+version: "3"
+services:
+ pg_master:
+  image: postgres:11.6
+  volumes:
+   - $PWD/pg_data_master:/var/lib/postgresql/data
+  environment:
+   - POSTGRES_USER=postgres
+   - POSTGRES_PASSWORD=docker
+   - POSTGRES_DB=test

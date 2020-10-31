@@ -1,0 +1,36 @@
+# usda DB
+psql -p 5432 -d test -a -f ${PGDATA}/data/usda.sql
+# dellstore2 DB
+psql -p 5432 -d test -a -f ${PGDATA}/data/dellstore2-normal-1.0.sql
+# pagila DB
+psql -p 5432 -d test -a -f ${PGDATA}/data/pagila-schema.sql
+psql -p 5432 -d test -a -f ${PGDATA}/data/pagila-data.sql
+# iso-3166 DB
+psql -p 5432 -d test -a -f ${PGDATA}/data/iso-3166.sql
+
+#get all tables
+psql -p 5432 -d test -c '\dt'
+#get all users 
+psql -p 5432 -d test -c '\du'
+
+### Replication Statistic ###
+#get all replications slots
+psql -p 5432 -c 'SELECT * FROM pg_replication_slots;'
+psql -p 5432 -c 'select * from pg_stat_replication;'
+#monitoring master replication status
+psql -p 5432 -c 'select pid, application_name, pg_wal_lsn_diff(pg_current_wal_lsn(), sent_lsn) sending_lag, pg_wal_lsn_diff(sent_lsn, flush_lsn) receiving_lag, pg_wal_lsn_diff(flush_lsn, replay_lsn) replaying_lag, pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn) total_lag from pg_stat_replication;'
+select pid, application_name, pg_wal_lsn_diff(pg_current_wal_lsn(), sent_lsn) sending_lag, pg_wal_lsn_diff(sent_lsn, flush_lsn) receiving_lag, pg_wal_lsn_diff(flush_lsn, replay_lsn) replaying_lag, pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn) total_lag from pg_stat_replication;
+
+# promote
+/usr/lib/postgresql/11/bin/pg_ctl promote
+/Users/gettricks2/Documents/Hankuper/PA Server/postgres-replication/master/pg_data_master/
+
+
+/usr/lib/postgresql/11/bin/pg_rewind --target-pgdata $PGDATA --source-server="host=host.docker.internal port=5433 user=postgres password=docker" --progress
+
+
+# get all confid
+psql -p 5432 -c 'show log_destination'
+
+
+
